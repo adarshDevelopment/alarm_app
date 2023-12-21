@@ -1,8 +1,6 @@
 import 'package:alarm_clock_self/database/alarm_database.dart';
 import 'package:alarm_clock_self/models/alarm_model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 List<String> repeatStatus = ['Once', 'Daily', 'Mon to Fri', 'Custom'];
 
