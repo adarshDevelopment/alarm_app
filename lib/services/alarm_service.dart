@@ -27,6 +27,22 @@ class AlarmService with ChangeNotifier {
     try {
       // print(
       //     'update alarm check: description: ${alarmModel.description} || time: ${alarmModel.alarmDate} || repeat: ${alarmModel.onRepeat} || vibrate: ${alarmModel.vibrate} || deleteAfterOnce: ${alarmModel.deleteAfterOnce}');
+      if (repeatingDays.isEmpty) {
+        RepeatingDays deleteRepeatingDays =
+            createRepeatingDaysObj(repeatingDays, alarmModel.id);
+        await AlarmDatabase.instance.deleteRepeatingDays(alarmModel);
+      } else {
+        RepeatingDays updateRepeatingDays =
+            createRepeatingDaysObj(repeatingDays, alarmModel.id);
+        var result = await AlarmDatabase.instance
+            .getRepeatingDays(updateRepeatingDays.id);
+        if (result == false) {
+          await AlarmDatabase.instance.createRepeatingDays(updateRepeatingDays);
+        } else {
+          await AlarmDatabase.instance.updateRepeatingDays(updateRepeatingDays);
+        }
+      }
+      /*
       if (repeatingDays.isNotEmpty) {
         RepeatingDays updateRepeatingDays =
             createRepeatingDaysObj(repeatingDays, alarmModel.id);
@@ -39,8 +55,9 @@ class AlarmService with ChangeNotifier {
           await AlarmDatabase.instance.updateRepeatingDays(updateRepeatingDays);
         }
       }
-      await AlarmDatabase.instance.deleteRepeatingDays(alarmModel);
-      await AlarmDatabase.instance.updateAlarm(alarmModel);
+      */
+      // await AlarmDatabase.instance.deleteRepeatingDays(alarmModel);
+      // await AlarmDatabase.instance.updateAlarm(alarmModel);
     } catch (e) {
       return e.toString();
     }
